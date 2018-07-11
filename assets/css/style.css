@@ -1,0 +1,27 @@
+input {
+    margin: 10px;
+  }
+button{
+    margin: 5px;
+    
+}
+#gifButtons{
+    text-align: center;
+}
+
+.container {
+    
+}
+
+#gifForm{
+    text-align: center;
+    padding: 45px;
+}
+body{
+    padding: 25px;
+    background: url(../images/intersection.png);
+}
+h1{
+    text-align: center;
+    padding-bottom: 25px;
+}
