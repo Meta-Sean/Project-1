@@ -1,3 +1,17 @@
+var config = {
+    apiKey: "AIzaSyCNzJvsSZ7iguPl4PhGNcgU75ulM4kli2s",
+    authDomain: "project1-bands.firebaseapp.com",
+    databaseURL: "https://project1-bands.firebaseio.com",
+    projectId: "project1-bands",
+    storageBucket: "",
+    messagingSenderId: "1002422839035"
+  };
+  firebase.initializeApp(config); 
+
+  var database = firebase.database();
+ 
+ 
+ 
  // Initialize Firebase
 var config = {
     apiKey: "",
