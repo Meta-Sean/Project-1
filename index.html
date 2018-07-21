@@ -28,16 +28,20 @@
                                     Search for an Artist
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form action="/action_page.php" method="post">
                                         <div class="form-group row">
                                             <label for="artist-name"><strong>Artist Name</strong></label>
-                                            <input class="form-control" id="artist-name" type="text">
+                                            <input class="form-control" id="artist-name" type="text" name="fname" required>
                                         </div>
                                         <div class="form-group row">
                                             <label for="destination"><strong>Location</strong></label>
-                                            <input class="form-control" id="location" type="text">
+                                            <input class="form-control" id="location" type="text" name="fname" required>
                                         </div>
-                                        <button class="btn btn-primary" id="submit-id" type="submit">Submit</button>
+                                        <button class="btn btn-primary" id="submit-id" input type="submit" value="Submit">Submit</button>
+                                        <!-- <form action="/action_page.php" method="post">
+                                            <input type="tex" name="fname" required>                                             
+                                        </form> -->
+
                                     </form>
                                 </div>
                             </div>
