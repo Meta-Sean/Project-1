@@ -1,4 +1,3 @@
-
 var config = {
   apiKey: "AIzaSyAPFwkM7er4XfzBRB9CT2wS52IVIG9ARZI",
   authDomain: "test-91708.firebaseapp.com",
@@ -16,6 +15,7 @@ moment().format();
 function bandsInTownArtist(artist){
     // Querying the bandsintown api for the selected artist
     var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=codingbootcamp";
+
     $.ajax({
       url: queryURL,
       method: "GET"
@@ -23,6 +23,7 @@ function bandsInTownArtist(artist){
     // Printing the entire object to console
       console.log(response)
       var results = response;
+
       //Run generateContent
       generateArtistContent(results);
      
@@ -75,7 +76,7 @@ function generateTourContent(results){
       var tickets = "'"+ results[i].offers[0].url  + "'";
       var button = $('<button>');
         button.attr('onclick','window.location.href='+tickets)
-        button.addClass("btn btn-primary");
+        button.addClass("btn btn-outline-primary fas fa-ticket-alt");
         button.attr('target','_blank')
         button.append('Tickets');
        //Append the form submition and results to table.
@@ -130,10 +131,12 @@ var randArtists = ['post malone','justin timberlake','taylor swift','ed sheeran'
       database.ref().push({
         artist: artist,
       });
+
       bandsInTownArtist(artist);
       bandsInTownTour(artist);
   });
   }
+
 randomButton();
 
 
@@ -154,3 +157,4 @@ randomButton();
     console.log(latitude);
       console.log(longitude);
   }
+
