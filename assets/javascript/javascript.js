@@ -9,6 +9,14 @@ var config = {
 firebase.initializeApp(config);
 // Create a variable to reference the database
 var database = firebase.database();
+//Clear the database on page load
+function clearDataBase(){
+database.ref().set({
+  
+});
+}
+//Run the clear database function once
+clearDataBase();
 //moment js
 moment().format();
 //Bands In Town API Function for grabing artist information
@@ -60,8 +68,8 @@ function bandsInTownTour(artist){
   });
 }
 //Initalize location cordinates
-var longitude = -0.120850;
-var latitude = 51.508742;
+var longitude = -96.78451749999999;
+var latitude = 32.8412178;
 function generateTourContent(results){
     $('#table').empty();
     // Store the coordinates of the first array
@@ -73,8 +81,9 @@ function generateTourContent(results){
       // Create row for each array
       var newRow = $('<tr>');
       //Create button to link to tickets
-      var tickets = "'"+ results[i].offers[0].url  + "'";
+      
       var button = $('<button>');
+      var tickets = "'"+ results[i].offers[0].url  + "'";
         button.attr('onclick','window.location.href='+tickets)
         button.addClass("btn btn-outline-primary fas fa-ticket-alt");
       
@@ -110,25 +119,26 @@ $('#submit-id').on('click', function(event){
 
     bandsInTownArtist(artist);
     bandsInTownTour(artist);
+
 });
 }
 submitButton();
 //Create array of random artists 
-var randArtists = ['post malone','justin timberlake','taylor swift','ed sheeran','beyonce','bruno mars','sam smith','luke bryan','U2','Maroon 5','Noah Cyrus','Elton John'];
+var randArtists = ['Post Malone','Justin Timberlake','Taylor Swift','Ed Sheeran','Beyonce','Bruno Mars','Eagles','Luke Bryan','U2','Kesha','Noah Cyrus','Elton John'];
  //Wrapped our random buton in a function
  function randomButton(){ 
   //Event handler for user clicking the search button and storing the values
   $('#random').on('click', function(event){
       event.preventDefault();
       //Use math.floor and math.random to pick a random artist in the array
-      var randArtistNum = Math.floor(Math.random()*12)+1;
+      var randArtistNum = Math.floor(Math.random()*12);
       var artist = randArtists[randArtistNum];
       console.log(artist);
       //Store the values in firebase  
       database.ref().push({
         artist: artist,
       });
-
+      $('#spotify').append('<iframe src="https://open.spotify.com/embed?uri=spotify:artist:3TVXtAsR1Inumwj472S9r4" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
       bandsInTownArtist(artist);
       bandsInTownTour(artist);
   });
@@ -136,15 +146,15 @@ var randArtists = ['post malone','justin timberlake','taylor swift','ed sheeran'
 
 randomButton();
 
-
+//Google Maps API function
 function myMap() {
-
+    // Variable to set the Map
     var map = new google.maps.Map(document.getElementById('googleMap'), {
       zoom: 14,
       center: new google.maps.LatLng(latitude,longitude),
       
     });
-
+    // Variable to set the marker.
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude,longitude),
       map: map,
@@ -153,4 +163,27 @@ function myMap() {
     console.log(latitude);
       console.log(longitude);
   }
-
+  myMap();
+//Create Array of keys for each child_added
+var keysArray = [];
+// Function for storing the keys
+database.ref().on("child_added", function(snapshot) {
+    var keys = snapshot.key;
+    console.log(keys);
+    keysArray.push(keys);
+    console.log(keysArray);
+});
+// Past searches function that uses Firebase
+database.ref().on("value", function(snapshot) {
+  $('#past-search').empty();
+  var data = snapshot.val();
+  console.log(data);
+  console.log(data[keysArray[0]]);
+  for (let i = 1; i < 6; i++){
+    //Create a list of recently searched artists
+  var searchList = $("<ul>");
+  console.log(keysArray.length, i);
+  $(searchList).prepend("<li>" + data[keysArray[keysArray.length - i]].artist + "</li>");
+  $('#past-search').append(searchList);
+  }
+});
