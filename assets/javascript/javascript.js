@@ -77,8 +77,7 @@ function generateTourContent(results){
       var button = $('<button>');
         button.attr('onclick','window.location.href='+tickets)
         button.addClass("btn btn-outline-primary fas fa-ticket-alt");
-        button.attr('target','_blank')
-        button.append('Tickets');
+      
        //Append the form submition and results to table.
       $(newRow).append('<td>' + moment(results[i].datetime).format('MMM DD') + '</td>')
       $(newRow).append('<td>' + results[i].venue.name + '</td>')
@@ -97,19 +96,17 @@ $('#submit-id').on('click', function(event){
     event.preventDefault();
     //Store the arist and location variables
     var artist = $('#artist-name').val().trim();
-    var location = $('#location').val().trim();
+    
     console.log(artist);
     console.log(location);
 
     //Store the values in firebase  
     database.ref().push({
       artist: artist,
-      location: location,
-
     });
     //Clear the text field on the form
     $("#artist-name").val('');
-    $('#location').val('');
+
 
     bandsInTownArtist(artist);
     bandsInTownTour(artist);
@@ -140,8 +137,7 @@ var randArtists = ['post malone','justin timberlake','taylor swift','ed sheeran'
 randomButton();
 
 
-
-  function myMap() {
+function myMap() {
 
     var map = new google.maps.Map(document.getElementById('googleMap'), {
       zoom: 14,
