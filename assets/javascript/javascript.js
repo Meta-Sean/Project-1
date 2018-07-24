@@ -1,4 +1,4 @@
-// Initialize Firebase
+
 var config = {
   apiKey: "AIzaSyAPFwkM7er4XfzBRB9CT2wS52IVIG9ARZI",
   authDomain: "test-91708.firebaseapp.com",
@@ -137,22 +137,6 @@ var randArtists = ['post malone','justin timberlake','taylor swift','ed sheeran'
 randomButton();
 
 
-// Use the location provided by the event info to create a map on google maps.
-
-// function myMap() {
-//   var mapProp= {
-//       center:new google.maps.LatLng(longitude,latitude),
-//       zoom:14,
-      
-//   };
-//   var marker = new google.maps.Marker({
-//     position: new google.maps.LatLng(longitude,latitude),
-//     map: map,
-//     title: 'Hello World!'
-//   });
-//   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-//   var markerMap=new google.maps.Map(document.getElementById("googleMap"),marker);
-//   }
 
   function myMap() {
 
