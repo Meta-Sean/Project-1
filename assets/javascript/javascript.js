@@ -1,13 +1,13 @@
 var config = {
-  apiKey: "AIzaSyAPFwkM7er4XfzBRB9CT2wS52IVIG9ARZI",
-  authDomain: "test-91708.firebaseapp.com",
-  databaseURL: "https://test-91708.firebaseio.com",
-  projectId: "test-91708",
-  storageBucket: "test-91708.appspot.com",
-  messagingSenderId: "802365238772"
+  apiKey: "AIzaSyCNzJvsSZ7iguPl4PhGNcgU75ulM4kli2s",
+  authDomain: "project1-bands.firebaseapp.com",
+  databaseURL: "https://project1-bands.firebaseio.com",
+  projectId: "project1-bands",
+  storageBucket: "project1-bands.appspot.com",
+  messagingSenderId: "1002422839035"
 };
-firebase.initializeApp(config);
-// Create a variable to reference the database
+firebase.initializeApp(config); 
+
 var database = firebase.database();
 //moment js
 moment().format();
@@ -38,12 +38,17 @@ function generateArtistContent(results){
    var artistImage = $("<img>").attr("src", results.thumb_url);
    var trackerCount = $("<h2>").text(results.tracker_count + " fans tracking this artist");
    var upcomingEvents = $("<h2>").text(results.upcoming_event_count + " upcoming events");
+  
+  
+
 
    // Empty the contents of the artist-div, append the new artist content
    $("#info").empty();
    $("#info").append(artistURL, artistImage, trackerCount, upcomingEvents);
 
-}
+}     
+
+
 //Bands In Town API Function for grabing artist tour information
 function bandsInTownTour(artist){
   // Querying the bandsintown api for the selected artist
@@ -94,6 +99,7 @@ function submitButton(){
 //Event handler for user clicking the search button and storing the values
 $('#submit-id').on('click', function(event){
     event.preventDefault();
+
     //Store the arist and location variables
     var artist = $('#artist-name').val().trim();
     
@@ -105,13 +111,31 @@ $('#submit-id').on('click', function(event){
       artist: artist,
     });
     //Clear the text field on the form
-    $("#artist-name").val('');
+ 
 
 
     bandsInTownArtist(artist);
     bandsInTownTour(artist);
+
+    //var artist = $('#artist-name').val()
+    queryURL = "https://www.googleapis.com/youtube/v3/search?q=" + artist + "&part=snippet&key=AIzaSyBXz0xMTnmOyG3IfRcOoH10y1pm4r_qd2E&type=video&videoLicense=youtube&videoEmbeddable=true&videoSyndicated=true&safeSearch=moderate&regionCode=US";
+
+    console.log(queryURL);
+    
+$.ajax({
+    url: queryURL,
+    method: "GET"
+})
+  .then(function(response){
+    console.log(response);
+    var results = response.items[0];
+    onYouTubeIframeAPIReady(results);
+    $("#artist-name").val('');
+
+});
 });
 }
+
 submitButton();
 //Create array of random artists 
 var randArtists = ['post malone','justin timberlake','taylor swift','ed sheeran','beyonce','bruno mars','sam smith','luke bryan','U2','Maroon 5','Noah Cyrus','Elton John'];
@@ -154,3 +178,57 @@ function myMap() {
       console.log(longitude);
   }
 
+
+ 
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  var player;
+
+
+  function onYouTubeIframeAPIReady(video) {
+
+    var py = document.getElementById('player');
+    
+    console.log(video)
+
+    
+    if(py.src){
+
+        // This means you already have an iframe        
+        player.loadVideoById(video.id.videoId);
+
+    } else {
+
+      player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: video.id.videoId,
+      });
+      
+
+    }
+
+
+    
+
+  }
+
+// $('#submit-id').on('click', function(event){
+// event.preventDefault();
+// var artist = $('#artist-name').val()
+// queryURL = "https://www.googleapis.com/youtube/v3/search?q=" + artist + "&part=snippet&key=AIzaSyBXz0xMTnmOyG3IfRcOoH10y1pm4r_qd2E";
+// console.log(queryURL);
+
+// $.ajax({
+//     url: queryURL,
+//     method: "GET"
+// })
+//   .then(function(response){
+//     console.log(response);
+//     var results = response.items[0];
+//     onYouTubeIframeAPIReady(results);
+
+// });
+// });
