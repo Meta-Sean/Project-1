@@ -15,6 +15,8 @@ database.ref().set({
   
 });
 }
+
+
 //Run the clear database function once
 clearDataBase();
 //moment js
@@ -98,12 +100,51 @@ function generateTourContent(results){
     }
     myMap();
 }
+
+
+// form validation on submit/enter
+$('#form-control').on('submit', function(event){
+  event.preventDefault();
+
+  var isValidated=validate () 
+    if (isValidated) {
+      //Store the arist and location variables
+  var artist = $('#artist-name').val().trim();
+  
+  console.log(artist);
+  console.log(location);
+
+  //Store the values in firebase  
+  database.ref().push({
+    artist: artist,
+  });
+  //Clear the text field on the form
+  $("#artist-name").val('');
+
+
+  bandsInTownArtist(artist);
+  bandsInTownTour(artist);
+  getTopTracks(artist);
+  youtubeVideo(artist)
+    }
+     
+    else  {alert("Enter an Artist")};
+  
+
+
+});
  //Wrapped our submit buton in a function
 function submitButton(){ 
 //Event handler for user clicking the search button and storing the values
+// form validation on click//
 $('#submit-id').on('click', function(event){
     event.preventDefault();
-    //Store the arist and location variables
+
+    var isValidated=validate () 
+      if (isValidated) {
+
+    
+        //Store the arist and location variables
     var artist = $('#artist-name').val().trim();
     
     console.log(artist);
@@ -121,6 +162,11 @@ $('#submit-id').on('click', function(event){
     bandsInTownTour(artist);
     getTopTracks(artist);
     youtubeVideo(artist)
+      }
+       
+      else  {alert("Enter an Artist")};
+    
+ 
 
 });
 }
@@ -230,6 +276,8 @@ function getTopTracks(artist) {
         $('#spotify').append(frame);
   }
  }
+
+//  Youtube function////
  function youtubeVideo(artist){
     queryURL = "https://www.googleapis.com/youtube/v3/search?q=" + artist + "&part=snippet&key=AIzaSyBXz0xMTnmOyG3IfRcOoH10y1pm4r_qd2E&type=video&videoLicense=youtube&videoEmbeddable=true&videoSyndicated=true&safeSearch=moderate&regionCode=US";
 
@@ -270,12 +318,26 @@ function onYouTubeIframeAPIReady(video) {
   } else {
 
     player = new YT.Player('youtube', {
-      height: '390',
-      width: '640',
+      height: '280',
+      width: '340',
       videoId: video.id.videoId,
       
     });
     console.log(player);
+  }
+}
+
+
+// function for validation
+function validate() {
+
+  var submitSearch= document.getElementById("artist-name").value;
+
+  if (submitSearch) {
+    return true;
+}
+  else {
+    return false;
   }
 
 }
