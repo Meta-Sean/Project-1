@@ -7,32 +7,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/javascript/SplitText.min.js"></script>
     <script src="assets/javascript/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLitIfCXtZR5ohcJ1QWyaQLjX4MdYzJvc&callback=myMap"
-        type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLitIfCXtZR5ohcJ1QWyaQLjX4MdYzJvc&callback=myMap"type="text/javascript"></script>
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
-    <link rel='stylesheet' href='assets/css/style.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>   
+    <link rel='stylesheet' href='assets/css/style.css'>  
 </head>
 
 <body id="body">
-    <div class="container" id="main-container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="hero">
-                    <div id="text-holder">
-                        <h1 class="display-4" id="title">Live Shows</h1>
-                        <hr class="line" id='hrLine'>
-                        <p class="lead" id="headline">Listen. Live.</p>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">On Tour</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="#form-control">Search <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="#youtube">Music</a>
+                    <a class="nav-item nav-link" href="#tour">Tour Dates</a>
+                    <a class="nav-item nav-link" id ='past-search' href="#tour">Past Searches</a>
+                  </div>
+                </div>
+              </nav>
+        <div class="container" id="main-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero">
+                        <div id="text-holder">
+                            <h1 class="display-4" id="title">Live Shows</h1>
+                            <hr class="line" id='hrLine'>
+                            <p class="lead" id="headline">Listen. Live.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="container">
             <div class="row">
@@ -59,10 +73,24 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+                <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Video</strong>
+                            </div>
+        
+                            <div id='youtube'class="card-body">
+        
+        
+        
+                            </div>
+        
+                        </div>
+                    </div>
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Artist Info
+                        <strong>Artist Info</strong>
                     </div>
 
                     <div id='info' class="card-body">
@@ -73,17 +101,14 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Top Tracks
+                        <strong>Top Tracks</strong>
                     </div>
-
                     <div id='tracks' class="card-body">
-
-
+                    
                     </div>
-
                 </div>
             </div>
 
@@ -118,13 +143,46 @@
             </div>
         </div>
     </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
-        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
+
+   </div>
+    <!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
+
+        <!-- Container -->
+        <div class="container">
+    
+          <!-- Font Awesome buttons -->
+          <ul class="list-unstyled list-inline text-center">
+            <li class="list-inline-item">
+              <a href='https://github.com/Meta-Sean/Project-1'class="btn-floating btn-fb mx-3">
+                <i class="fa fa-facebook fa-2x"> </i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href='https://github.com/Meta-Sean/Project-1'class="btn-floating btn-tw mx-3">
+                <i class="fa fa-twitter fa-2x"> </i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href='https://github.com/Meta-Sean/Project-1' class="btn-floating btn-gplus mx-3">
+                <i class="fa fa-google-plus fa-2x"> </i>
+              </a>
+            </li>
+          </ul>
+          <!-- Social buttons -->
+    
+        </div>
+        <!-- Footer Elements -->
+    
+        <!-- Copyright -->
+        <div id='foot'class="footer-copyright text-center py-3">© 2018 Copyright:
+          <a href="https://github.com/Meta-Sean/Project-1"> BootCamp Team </a>
+        </div>
+        <!-- Copyright -->
+    
+      </footer>
+      <!-- Footer -->
+
     <!-- Script -->
     <script src='./assets/javascript/javascript.js'></script>
 </body>
