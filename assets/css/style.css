@@ -25,13 +25,27 @@
 }
 #title{
     text-align: center;
+    opacity: 0;
 }
 #headline{
     text-align: center;
+    opacity: 0;
 }
 .line{
-    border: 1px solid #fff;
+width: 65%;
+height: 1px;
+position: absolute;
+right: 200;
+top: 50%;
+background-color: #efefef;
+overflow: hidden; 
+}
+
+#hrLine {
+    /* border: 1px solid #fff; */
     width: 35%;
+    height: 1px;
+    background-color: #fff;
 }
 #searchbars{
     border: none;
