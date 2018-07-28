@@ -1,36 +1,33 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <title>Project 1</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/SplitText.min.js"></script>
-    <script src="assets/javascript/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLitIfCXtZR5ohcJ1QWyaQLjX4MdYzJvc&callback=myMap"type="text/javascript"></script>
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Hind+Siliguri" rel="stylesheet">
-    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>   
     <link rel='stylesheet' href='assets/css/style.css'>
+    <link href="https://fonts.googleapis.com/css?family=Hind+Siliguri" rel="stylesheet">
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 </head>
 
 <body id="body">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">On Tour</a>
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+                <a id="headTitle" class="navbar-brand" href="#">On Tour</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#form-control">Search <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="#youtube">Music</a>
-                    <a class="nav-item nav-link" href="#tour">Tour Dates</a>
-                    <a class="nav-item nav-link" id ='past-search' href="#tour">Past Searches</a>
+                    <a class="nav-item nav-link active searchLink" href="#form-control">Search <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link searchLink" href="#youtube">Music</a>
+                    <a class="nav-item nav-link searchLink" href="#tour">Tour Dates</a>
+                    <a class="nav-item nav-link searchLink" id ='past-search' href="#tour">Past Searches</a>
                   </div>
                 </div>
               </nav>
@@ -39,38 +36,46 @@
                 <div class="col-md-12">
                     <div class="hero">
                         <div id="text-holder">
-                            <h1 class="display-4" id="title">Live Shows</h1>
-                            <hr class="line" id='hrLine'>
+                            <h1 class="display-4" id="title">On Tour</h1>
+                            <hr class="line">
                             <p class="lead" id="headline">Listen. Live.</p>
-         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card" id="searchbars">
-                        <div class="card-body">
-                            <form id="form-control">
-    
-                                <div class="form-group row" id="artist-label">
-                                    <label for="artist-name">
-                                        <strong>Artist Name</strong>
-                                    </label>
-                                    <input class="form-control" id="artist-name" type="text">
-                                </div>
-                                <button class="btn btn-primary" id="submit-id" type="submit">Submit</button>
-    
-                                <button class="btn btn-outline-secondary" id="random" type="button">Random</button>
-                            </form>
-
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="searchbars">
+                    <div class="card-body">
+                        <form id="form-control">
+
+                            <div id="artist-label" class="form-group row" >
+                                <label for="artist-name">
+                                    Artist Name
+                                </label>
+                                <input class="form-control" id="artist-name" type="text">
+                            </div>
+                            <button class="btn btn-primary" id="submit-id" type="submit">Submit</button>
+
+                            <button class="btn btn-outline-secondary" id="random" type="button">Random</button>
+                            
+                            
+                        </form>
+                        
+                       <!-- <div class="row">
+                            <div class="col-md-4">
+                                <div>Past Searches:</div>
+                            <div id='past-search'></div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="row">
@@ -80,19 +85,14 @@
         </div>
         <div class="row">
                 <div class="col-md-4">
-
-        
+                        <div id="youtubeCARD" class="card">
                             <div id='youtube'class="card-body">
     
                             </div>    
                         </div>
                     </div>
             <div class="col-md-4">
-              <div class="card">
-                    <div class="card-header">
-                        <strong>Artist Info</strong>
-                    </div>
-
+                <div id="infoCARD" class="card">
                     <div id='info' class="card-body">
 
                     </div>
@@ -100,7 +100,7 @@
             </div>
 
             <div class="col-md-4">
-                <div id="spotify" class="card">
+                <div id="spotifyCARD" class="card">
                     <div id='spotify'class="card-body">
                     </div>
                 </div>
@@ -123,9 +123,9 @@
                                     <th scope="col">Tickets</th>
                                 </tr>
                             </thead>
-
+                            
                             <tbody id='table'>
-                                <div id="googleMap" style="width:100%;height:400px;"></div>
+                                    <div id="googleMap" style="width:100%;height:400px;"></div>
 
 
                             </tbody>
@@ -136,7 +136,7 @@
         </div>
     </div>
 
-   </div>
+    </div>
     <!-- Footer -->
 <footer class="page-footer font-small special-color-dark pt-4">
 
@@ -146,17 +146,17 @@
           <!-- Font Awesome buttons -->
           <ul class="list-unstyled list-inline text-center">
             <li class="list-inline-item">
-              <a href='https://github.com/Meta-Sean/Project-1'class="btn-floating btn-fb mx-3">
+              <a href='https://github.com/Meta-Sean/Project-1'class="btn-floating btn-fb mx-3 socialButton">
                 <i class="fa fa-facebook fa-2x"> </i>
               </a>
             </li>
             <li class="list-inline-item">
-              <a href='https://github.com/Meta-Sean/Project-1'class="btn-floating btn-tw mx-3">
+              <a href='https://github.com/Meta-Sean/Project-1'class="btn-floating btn-tw mx-3 socialButton">
                 <i class="fa fa-twitter fa-2x"> </i>
               </a>
             </li>
             <li class="list-inline-item">
-              <a href='https://github.com/Meta-Sean/Project-1' class="btn-floating btn-gplus mx-3">
+              <a href='https://github.com/Meta-Sean/Project-1' class="btn-floating btn-gplus mx-3 socialButton">
                 <i class="fa fa-google-plus fa-2x"> </i>
               </a>
             </li>
@@ -168,15 +168,17 @@
     
         <!-- Copyright -->
         <div id='foot'class="footer-copyright text-center py-3">© 2018 Copyright:
-          <a href="https://github.com/Meta-Sean/Project-1"> BootCamp Team </a>
+          <a href="https://github.com/Meta-Sean/Project-1" class="socialButton"> BootCamp Team </a>
         </div>
         <!-- Copyright -->
     
       </footer>
-      <!-- Footer -->
-
     <!-- Script -->
     <script src='./assets/javascript/javascript.js'></script>
 </body>
 
+
 </html>
+
+
+
