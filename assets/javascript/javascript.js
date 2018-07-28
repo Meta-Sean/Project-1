@@ -99,16 +99,18 @@ function bandsInTownArtist(artist){
 //Function to dynamically generate artist information on the page.
 function generateArtistContent(results){
    // Constructing HTML containing the artist information
-   var artistName = $("<h1>").text(results.name);
+   var artistName = $("<div>").text(results.name).addClass("titleCLASS");
    var artistURL = $("<a>").attr("href", results.url).append(artistName);
-   var artistImage = $("<img>").attr("src", results.thumb_url);
-   var trackerCount = $("<p>").text(results.tracker_count + " fans tracking this artist");
-   var upcomingEvents = $("<p>").text(results.upcoming_event_count + " upcoming events");
+   var artistImage = $("<img>").attr("src", results.thumb_url).addClass("artistIMAGE");
+   var trackerCount = $("<div>").text(results.tracker_count + " fans tracking this artist");
+   var upcomingEvents = $("<div>").text(results.upcoming_event_count + " upcoming events");
+
 
    // Empty the contents of the artist-div, append the new artist content
    $("#info").empty();
-   $("#info").append(artistURL, artistImage, trackerCount, upcomingEvents);
-
+   $(".titleCLASS").empty();
+   $("#info").append(artistImage, trackerCount, upcomingEvents);
+   $("#artistTITLE").append(artistURL);
 }
 
 //This function gets the artist's top tracks from the Spotify
@@ -124,7 +126,7 @@ function getTopTracks(artist) {
   });
 
   function getTracksData(response) {
-    $('#tracks').empty();
+    $('#spotify').empty();
     var data = response.artists.items[0];
     var artistUri = data.uri;
     artistId = data.id;
@@ -135,7 +137,7 @@ function getTopTracks(artist) {
     frame.attr('frameborder', '0');
     frame.attr('allowtransperancy', 'true');
     frame.attr('allow', 'encrypted-media');
-    $('#tracks').append(frame);
+    $('#spotify').append(frame);
   }
 }
 
@@ -172,7 +174,7 @@ function generateTourContent(results){
       var button = $('<button>');
       var tickets = "'"+ results[i].offers[0].url  + "'";
         button.attr('onclick','window.location.href='+tickets)
-        button.addClass("btn btn-outline-primary fas fa-ticket-alt");
+        button.addClass("btn btn-outline-primary fas fa-ticket-alt ticketButton");
       
        //Append the form submition and results to table.
       $(newRow).append('<td>' + moment(results[i].datetime).format('MMM DD') + '</td>')
