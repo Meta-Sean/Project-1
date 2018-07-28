@@ -19,6 +19,64 @@ database.ref().set({
 clearDataBase();
 //moment js
 moment().format();
+
+//Page Animation
+var windowHeight = window.innerHeight;
+var windowWidth = window.innerWidth;
+var title = new SplitText('#title', { type: 'chars, words' });
+var headline = new SplitText('#headline', { type: 'chars, words' });
+
+      
+TweenMax.set('#hrLine', {xPercent: 0, opacity: 0});
+TweenMax.to('#hrLine', 1, {xPercent: 90, opacity: 1, ease: Power2.easeOut, delay: 2, onComplete: getTl});
+  
+  //fct to animate title and headline
+function getTl() {
+  TweenMax.from('#title', 0.5, { opacity: 0, delay: 1});
+  TweenMax.to('#title', 0.5, {opacity:1, delay: 1})
+  TweenMax.from('#headline', 0.1, { opacity: 0, delay: 3});
+  TweenMax.to('#headline', 0.1, {opacity:1, delay: 3})
+  TweenMax.staggerFrom(title.chars, 2, {rotationY: 360}, 0.3);
+  TweenMax.staggerFrom(headline.chars, 1.5, {y: 400, scale: 25 }, 0.5);
+  }
+
+// this fct explodes the text when submit is clicked
+function explode() {
+  var timeline = new TimelineLite({onStart: beginExplode});
+  // timeline.staggerFrom(title.chars, {onStart: beginExplode});
+
+  function beginExplode() {
+    timeline.add(explodeText());
+  }
+  function explodeText() {
+    var tl = new TimelineLite();
+    $.each(title.chars, function (index, element) {
+      var newX = Math.floor(Math.random() * windowWidth);
+      newX *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+  
+      var newY = Math.floor(Math.random() * windowHeight);
+      newY *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+  
+      tl.to(element, 0.8, { x: newX, y: newY, rotationX: 200, rotationY: 360, opacity: 0, scale: 5 }, index * .1);
+    });
+
+    $.each(headline.chars, function (index, element) {
+      var newX = Math.floor(Math.random() * windowWidth);
+      newX *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+  
+      var newY = Math.floor(Math.random() * windowHeight);
+      newY *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+  
+      tl.to(element, 0.8, { x: newX, y: newY, rotationX: 200, rotationY: 360, opacity: 0, scale: 15 }, index * .1);
+    });
+    tl.to('#hrLine',0.1,  {opacity:0});
+    return tl;
+  } 
+}
+
+
+
+
 //Bands In Town API Function for grabing artist information
 function bandsInTownArtist(artist){
     // Querying the bandsintown api for the selected artist
@@ -47,12 +105,42 @@ function generateArtistContent(results){
    var trackerCount = $("<div>").text(results.tracker_count + " fans tracking this artist");
    var upcomingEvents = $("<div>").text(results.upcoming_event_count + " upcoming events");
 
+
    // Empty the contents of the artist-div, append the new artist content
    $("#info").empty();
    $(".titleCLASS").empty();
    $("#info").append(artistImage, trackerCount, upcomingEvents);
    $("#artistTITLE").append(artistURL);
 }
+
+//This function gets the artist's top tracks from the Spotify
+function getTopTracks(artist) {
+  var token = 'BQAL6QdD4JSe0eSWz8p69wIX93DlEBMt0lWXPDqIJYFszUH-Y7zPnMGIXfa71fmTbI6xan6FGSglGFcKahh-I9adQIHI_8TAnpY3ilEM6YGKCi2flaGKjI1RAVucmXh7qS6PMSUQK6Wa0TISZLSqoMeTd4FaSjXj5Y5sM7lXdgZQD0a2gub0NyNO_ONnyWjBohvEO9hsHf8nMop1Fp5a';
+  var artistId = '';
+  var queryURL = 'https://api.spotify.com/v1/search?q=' + artist + '&type=artist&access_token=' + token;
+  $.ajax({
+    url: queryURL,
+    method: 'GET'
+  }).then(function (response) {
+    getTracksData(response);
+  });
+
+  function getTracksData(response) {
+    $('#spotify').empty();
+    var data = response.artists.items[0];
+    var artistUri = data.uri;
+    artistId = data.id;
+    var frame = $('<iframe>');
+    frame.attr('src', 'https://open.spotify.com/embed?uri=' + artistUri);
+    frame.attr('width', '300');
+    frame.attr('height', '380');
+    frame.attr('frameborder', '0');
+    frame.attr('allowtransperancy', 'true');
+    frame.attr('allow', 'encrypted-media');
+    $('#spotify').append(frame);
+  }
+}
+
 //Bands In Town API Function for grabing artist tour information
 function bandsInTownTour(artist){
   // Querying the bandsintown api for the selected artist
@@ -99,17 +187,18 @@ function generateTourContent(results){
     }
     myMap();
 }
+
+
  //Wrapped our submit buton in a function
 function submitButton(){ 
 //Event handler for user clicking the search button and storing the values
 $('#submit-id').on('click', function(event){
     event.preventDefault();
-    //Store the arist and location variables
     var artist = $('#artist-name').val().trim();
-    
-    console.log(artist);
-    console.log(location);
-
+  
+    explode();
+    TweenMax.to('#hrLine', {opacity: 0});
+  
     //Store the values in firebase  
     database.ref().push({
       artist: artist,
@@ -119,6 +208,7 @@ $('#submit-id').on('click', function(event){
 
 
     bandsInTownArtist(artist);
+    getTopTracks(artist);
     bandsInTownTour(artist);
     getTopTracks(artist);
     youtubeVideo(artist)
@@ -168,115 +258,79 @@ function myMap() {
     console.log(latitude);
       console.log(longitude);
   }
+
   myMap();
-//Create Array of keys for each child_added
-var keysArray = [];
-// Function for storing the keys
-database.ref().on("child_added", function(snapshot) {
-    var keys = snapshot.key;
-    console.log(keys);
-    keysArray.push(keys);
-    console.log(keysArray);
-});
-// Past searches function that uses Firebase
-database.ref().on("value", function(snapshot) {
-  $('#past-search').empty();
-  var data = snapshot.val();
-  console.log(data);
-  console.log(data[keysArray[0]]);
-  for (let i = 1; i < 6; i++){
-    //Create a list of recently searched artists
-  var searchList = $("<ul>");
-  console.log(keysArray.length, i);
-  $(searchList).prepend("<li>" + data[keysArray[keysArray.length - i]].artist + "</li>");
-  $('#past-search').append(searchList);
-  }
-});
-
-//This function gets the artist's top tracks from the Spotify
-function getTopTracks(artist) {
-  var token = 'BQC2HHl_fyMAUHiTXzqsHnWe8O6d1U-bStiUNbJxxYQL61XLasxqemhg9SS0R7Tpy5p6w6YAC_WfroKkvQpuIqkeqYlyNLSK0xf94766Tltq-KCOIrRP3ssUQyuFPx5ozdLXEXoUWYyxjCgpxO_cgMr_uV_x_dFQaDGGdT-fb6KzjLO6Z0Ec2UXldMMMLJyz3Kir6jfQNLMpCkDDadSF';
-  var artistId = '';
-  var endpoint1 = 'https://api.spotify.com/v1/search?q=' + artist + '&type=artist&access_token=' + token;
-  var endpoint2 = '';
-  $.ajax({
-    url: endpoint1,
-    method: 'GET'
-  }).then(function (response) {
-    getTracksData(response, token);
-  })
- 
-  function getTracksData(response, token) {
-    var data = response.artists.items[0];
-      var artistUri = data.uri;
-      artistId = data.id;
-      endpoint2 = 'https://api.spotify.com/v1/artists/' + artistId + '/top-tracks?country=US&access_token=' + token;
-      $.ajax({
-        url: endpoint2,
-        method: 'GET'
-      }).then(function (response) {
-        displayTracksData(artistUri);
-      });
-  }
- 
-  function displayTracksData(uri) {
-    $('#spotify').empty();
-    var frame = $('<iframe>');
-        frame.attr('src', 'https://open.spotify.com/embed?uri=' + uri);
-        frame.attr('width', '300');
-        frame.attr('height', '380');
-        frame.attr('frameborder', '0');
-        frame.attr('allowtransperancy', 'true');
-        frame.attr('allow', 'encrypted-media');
-        $('#spotify').append(frame);
-  }
- }
- function youtubeVideo(artist){
-    queryURL = "https://www.googleapis.com/youtube/v3/search?q=" + artist + "&part=snippet&key=AIzaSyBXz0xMTnmOyG3IfRcOoH10y1pm4r_qd2E&type=video&videoLicense=youtube&videoEmbeddable=true&videoSyndicated=true&safeSearch=moderate&regionCode=US";
-
-    console.log(queryURL);
-    
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(function(response){
-      console.log(response);
-      var results = response.items[0];
-      console.log
-      onYouTubeIframeAPIReady(results);
-      
-
+  //Create Array of keys for each child_added
+  var keysArray = [];
+  // Function for storing the keys
+  database.ref().on("child_added", function(snapshot) {
+      var keys = snapshot.key;
+      console.log(keys);
+      keysArray.push(keys);
+      console.log(keysArray);
   });
-}
-
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-var player;
-
-
-function onYouTubeIframeAPIReady(video) {
-
-  var py = document.getElementById('youtube');
+  // Past searches function that uses Firebase
+  database.ref().on("value", function(snapshot) {
+    $('#past-search').empty();
+    var data = snapshot.val();
+    console.log(data);
+    console.log(data[keysArray[0]]);
+    for (let i = 1; i < 6; i++){
+      //Create a list of recently searched artists
+    var searchList = $("<ul>");
+    console.log(keysArray.length, i);
+    $(searchList).prepend("<li>" + data[keysArray[keysArray.length - i]].artist + "</li>");
+    $('#past-search').append(searchList);
+    }
+  });
   
-  console.log(video)
-
   
-  if(py.src){
-
-      // This means you already have an iframe        
-      player.loadVideoById(video.id.videoId);
-
-  } else {
-
-    player = new YT.Player('youtube', {
-      height: '390',
-      width: '640',
-      videoId: video.id.videoId,
+   function youtubeVideo(artist){
+      queryURL = "https://www.googleapis.com/youtube/v3/search?q=" + artist + "&part=snippet&key=AIzaSyBXz0xMTnmOyG3IfRcOoH10y1pm4r_qd2E&type=video&videoLicense=youtube&videoEmbeddable=true&videoSyndicated=true&safeSearch=moderate&regionCode=US";
+  
+      console.log(queryURL);
       
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).then(function(response){
+        console.log(response);
+        var results = response.items[0];
+        console.log
+        onYouTubeIframeAPIReady(results);
+        
+  
     });
-    console.log(player);
   }
-
-}
+  
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  var player;
+  
+  
+  function onYouTubeIframeAPIReady(video) {
+  
+    var py = document.getElementById('youtube');
+    
+    console.log(video)
+  
+    
+    if(py.src){
+  
+        // This means you already have an iframe        
+        player.loadVideoById(video.id.videoId);
+  
+    } else {
+  
+      player = new YT.Player('youtube', {
+        height: '390',
+        width: '640',
+        videoId: video.id.videoId,
+        
+      });
+      console.log(player);
+    }
+  
+  }
