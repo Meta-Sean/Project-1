@@ -1,10 +1,10 @@
 var config = {
-  apiKey: "AIzaSyAPFwkM7er4XfzBRB9CT2wS52IVIG9ARZI",
-  authDomain: "test-91708.firebaseapp.com",
-  databaseURL: "https://test-91708.firebaseio.com",
-  projectId: "test-91708",
-  storageBucket: "test-91708.appspot.com",
-  messagingSenderId: "802365238772"
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: ""
 };
 firebase.initializeApp(config);
 // Create a variable to reference the database
